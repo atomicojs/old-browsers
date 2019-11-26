@@ -35,12 +35,13 @@ For better compatibility with browsers that do not support web-components, it is
 
 ## Rollup configuration example
 
+Example [rollup.config.js](https://github.com/atomicojs/old-browsers/blob/master/example/rollup.config.js).
+
 ```jsx
 import resolve from "rollup-plugin-node-resolve";
 import babel from "rollup-plugin-babel";
 
-const root = "src";
-const input = `${root}/index.js`;
+const input = "src/index.js";
 
 const JSXBabel = [
   "@babel/plugin-transform-react-jsx",
@@ -50,30 +51,18 @@ const JSXBabel = [
 ];
 
 export default [
-  /**
-   * bundle for old browsers
-   */
   {
     input,
     output: {
       format: "iife",
-      sourcemap: true,
+      sourcemap: false,
       file: "dist/index.iife.js",
       name: "bundle"
     },
     plugins: [
       resolve(),
       babel({
-        include: [
-          /**
-           * Atomic is distributed as module es6,
-           * so if you are looking for a compatibility
-           * with browsers that do not support modules
-           * should allow babel to transform Atomico
-           */
-          "node_modules/atomico/**",
-          `${root}/**`
-        ],
+        include: ["node_modules/atomico/**", "src/**"],
         presets: [
           [
             "@babel/preset-env",
@@ -88,9 +77,6 @@ export default [
       })
     ]
   },
-  /**
-   * bundle for modern browsers
-   */
   {
     input,
     output: {
@@ -98,7 +84,22 @@ export default [
       sourcemap: true,
       file: "dist/index.js"
     },
-    plugins: [resolve(), babel({ plugins: [JSXBabel] })]
+    plugins: [
+      resolve(),
+      babel({
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              targets: {
+                edge: "12"
+              }
+            }
+          ]
+        ],
+        plugins: [JSXBabel]
+      })
+    ]
   }
 ];
 ```
