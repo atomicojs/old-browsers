@@ -1309,7 +1309,7 @@
     }, []);
     return createElement("host", {
       shadowDom: true
-    }, createElement("style", null, "\n        :host{\n          display: block;\n          color: black;\n          color: white;\n          font-size:".concat(Math.floor(Math.random() * 100) + 10, "px;\n          background: rgba(0,0,0,").concat(Math.random() + 0.25, ");\n        }\n      ")), "inside web-component ", state + "");
+    }, createElement("style", null, "\n        :host{\n          font-size:".concat(Math.floor(Math.random() * 100) + 10, "px;\n        }\n      ")), "inside web-component ", state + "");
   };
 
   customElement("custom-element", CustomElement);
